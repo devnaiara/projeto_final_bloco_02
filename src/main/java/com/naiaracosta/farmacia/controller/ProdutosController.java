@@ -28,50 +28,45 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProdutosController {
 
-    @Autowired
-    private ProdutosRepository ProdutosRepository;
-    
-    @GetMapping
-    public ResponseEntity<List<Produtos>> getAll(){
-        return ResponseEntity.ok(ProdutosRepository.findAll());
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<Produtos> getById(@PathVariable Long id){
-        return ProdutosRepository.findById(id)
-            .map(resposta -> ResponseEntity.ok(resposta))
-            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-    
-    @GetMapping("/pesquisar/{nome}")
-    public ResponseEntity<List<Produtos>> getByNome(@PathVariable 
-    String nome){
-        return ResponseEntity.ok(ProdutosRepository
-            .findAllByNomeContainingIgnoreCase(nome));
-    }
-    
-    @PostMapping
-    public ResponseEntity<Produtos> post(@Valid @RequestBody Produtos produtos){
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ProdutosRepository.save(produtos));
-    }
-    
-    @PutMapping
-    public ResponseEntity<Produtos> put(@Valid @RequestBody Produtos produtos){
-        return ProdutosRepository.findById(produtos.getId())
-            .map(resposta -> ResponseEntity.status(HttpStatus.CREATED)
-            .body(ProdutosRepository.save(produtos)))
-            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-    
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        Optional<Produtos> produtos = ProdutosRepository.findById(id);
-        
-        if(produtos.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        
-        ProdutosRepository.deleteById(id);              
-    }
+	@Autowired
+	private ProdutosRepository ProdutosRepository;
+
+	@GetMapping
+	public ResponseEntity<List<Produtos>> getAll() {
+		return ResponseEntity.ok(ProdutosRepository.findAll());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Produtos> getById(@PathVariable Long id) {
+		return ProdutosRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
+
+	@GetMapping("/pesquisar/{nome}")
+	public ResponseEntity<List<Produtos>> getByNome(@PathVariable String nome) {
+		return ResponseEntity.ok(ProdutosRepository.findAllByNomeContainingIgnoreCase(nome));
+	}
+
+	@PostMapping
+	public ResponseEntity<Produtos> post(@Valid @RequestBody Produtos produtos) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(ProdutosRepository.save(produtos));
+	}
+
+	@PutMapping
+	public ResponseEntity<Produtos> put(@Valid @RequestBody Produtos produtos) {
+		return ProdutosRepository.findById(produtos.getId())
+				.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(ProdutosRepository.save(produtos)))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
+
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable Long id) {
+		Optional<Produtos> produtos = ProdutosRepository.findById(id);
+
+		if (produtos.isEmpty())
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+		ProdutosRepository.deleteById(id);
+	}
 }

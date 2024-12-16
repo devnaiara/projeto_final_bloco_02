@@ -13,25 +13,25 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name= "tb_produtos")
+@Table(name = "tb_produtos")
 public class Produtos {
 
 	@Id
-	@ GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotBlank 
-	@Size(min = 5, max = 80) 
+
+	@NotBlank
+	@Size(min = 5, max = 80)
 	private String nome;
 
-    @NotNull
-    private Integer quantidade;
-    
-    @NotNull
-    private Double preco;
-    @ManyToOne
-    @JsonIgnoreProperties("produtos")
-    private Categoria categoria;
+	@NotNull
+	private Integer quantidade;
+
+	@NotNull
+	private Double preco;
+	@ManyToOne
+	@JsonIgnoreProperties("produtos")
+	private Categoria categoria;
 
 	public Long getId() {
 		return id;
@@ -72,5 +72,5 @@ public class Produtos {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-    
+
 }

@@ -16,17 +16,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name= "tb_categoria")
+@Table(name = "tb_categoria")
 public class Categoria {
 
 	@Id
-	@ GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotBlank 
-	@Size(min = 5, max = 80) 
+
+	@NotBlank
+	@Size(min = 5, max = 80)
 	private String nome;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("categoria")
 	private List<Produtos> produtos;
@@ -54,6 +54,5 @@ public class Categoria {
 	public void setProdutos(List<Produtos> produtos) {
 		this.produtos = produtos;
 	}
-	
-	
+
 }
