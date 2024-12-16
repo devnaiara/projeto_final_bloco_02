@@ -1,23 +1,20 @@
 package com.naiaracosta.farmacia.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name= "tb_categoria")
-public class Categoria {
+@Table(name= "tb_produtos")
+public class Produtos {
 
 	@Id
 	@ GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -26,10 +23,15 @@ public class Categoria {
 	@NotBlank 
 	@Size(min = 5, max = 80) 
 	private String nome;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("categoria")
-	private List<Produtos> produtos;
+
+    @NotNull
+    private Integer quantidade;
+    
+    @NotNull
+    private Double preco;
+    @ManyToOne
+    @JsonIgnoreProperties("produtos")
+    private Categoria categoria;
 
 	public Long getId() {
 		return id;
@@ -47,13 +49,28 @@ public class Categoria {
 		this.nome = nome;
 	}
 
-	public List<Produtos> getProdutos() {
-		return produtos;
+	public Integer getQuantidade() {
+		return quantidade;
 	}
 
-	public void setProdutos(List<Produtos> produtos) {
-		this.produtos = produtos;
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
-	
-	
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+    
 }
